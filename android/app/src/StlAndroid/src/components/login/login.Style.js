@@ -11,14 +11,29 @@ export const LoginStyle = StyleSheet.create({
   content: {
     flex: 1,
     width: '100%',
+    justifyContent: 'center',
+  },
+  comLogo: {
+    width: 150,
+    height: 150,
+    borderRadius: 100,
+    backgroundColor:'white',
+    alignSelf: 'center',
   },
   signinText: {
     fontSize: 25,
     color: '#000',
     fontWeight: 600,
   },
+  accountText: {
+    fontSize: 16,
+    color: '#000',
+    fontWeight: 500,
+    alignSelf: 'center',
+  },
   form: {
     alignItems: 'flex-start',
+    marginTop: 15,
   },
   inputlabel: {
     fontSize: 16,

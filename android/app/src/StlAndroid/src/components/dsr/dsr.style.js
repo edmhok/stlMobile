@@ -1,22 +1,20 @@
 import {StyleSheet} from 'react-native';
 
 export const BetStyle = StyleSheet.create({
-  Container: {
+  betContainer: {
     backgroundColor: '#E6E6E6',
-    paddingHorizontal: 10,
+    paddingHorizontal: 50,
     flex: 1,
-
+    alignItems: 'center',
+    position: 'relative',
   },
-  headerPart: {
+  content: {
+    width: '100%',
+    top: 30,
+  },
+  titleSaveBtn: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    margin: 10,
-    padding: 5,
-  },
-  contentBox: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginTop: 10,
   },
   betTitle: {
     fontSize: 25,
@@ -30,11 +28,9 @@ export const BetStyle = StyleSheet.create({
   },
   formInput: {
     top: 10,
-    width: '100%',
   },
-  schedNumber: {
+  SchedNumber: {
     top: 10,
-    width: '100%',
   },
   label: {
     fontSize: 16,
@@ -42,13 +38,14 @@ export const BetStyle = StyleSheet.create({
   },
   drop: {
     height: 50,
-    width: '85%',
+    width: '40%',
     backgroundColor: '#fff',
     borderWidth: 9,
-    borderRadius: 4,
+    borderColor: 'red',
+    borderRadius: 10,
   },
   numberInput: {
-    width: '85%',
+    width: '40%',
     fontSize: 15,
     height: 50,
     padding: 10,
@@ -61,35 +58,31 @@ export const BetStyle = StyleSheet.create({
     width: '100%',
     top: 20,
   },
-  addOpacity: {
+  signinBtnOpacity: {
     backgroundColor: '#0D99FF',
-    alignSelf: 'center',
+    alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 4,
     width: '50%',
     height: 40,
-    marginTop: 40,
-
   },
   btnText: {
     fontSize: 16,
     color: '#fff',
     fontWeight: 'bold',
-    alignSelf: 'center',
-
   },
   horizontalLines: {
     backgroundColor: '#898989',
-    width: '80%',
-    height: 3,
-    marginTop: 15,
+    width: '100%',
+    height: 8,
     borderRadius: 10,
-    alignSelf: 'center',
+    marginBottom: 10,
+    top: 40,
   },
   betTable: {
     width: '100%',
     height: 100,
-    padding: 10,
+    top: 50,
   },
   betLogsText: {
     fontSize: 16,
@@ -101,29 +94,7 @@ export const BetStyle = StyleSheet.create({
     justifyContent: 'center',
     width: 130,
     height: 45,
-    backgroundColor: 'steelblue',
+    backgroundColor: '#0D99FF',
     borderRadius: 5,
-  },
-  btnDel: {
-    backgroundColor: 'crimson',
-    padding: 10,
-    borderRadius: 10,
-    height: 40,
-    alignSelf: 'flex-end',
-    justifyContent: 'center',
-  },
-  resView: {
-    backgroundColor:'white',
-    alignContent: 'space-around',
-    flexDirection: 'row',
-    padding: 10,
-  },
-  botLine: {
-    backgroundColor:'E6E6E6',
-    height: 10,
-    width: '100%',
-    alignSelf: 'center',
-    marginTop: 15,
-
   },
 });
