@@ -1,5 +1,5 @@
-import {View, Text, TextInput, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
+import {View, Text, TextInput, TouchableOpacity, Alert} from 'react-native';
+import React, {useState, useEffect} from 'react';
 import {ExStyle as style} from './expenses.style';
 import {Picker} from '@react-native-picker/picker';
 import axios from 'axios';
@@ -23,14 +23,17 @@ export default function Expenses() {
     setAmount('');
   };
 
-  const saveBet = async () => {
+  const saveExpenses = async () => {
     try {
       for (const exLog of exLogs) {
           const response = await axios.post('http://10.0.2.2:8000/expenses', {
-            date: '2023-05-01',
+            date: '2023-07-06',
             type: exLog.selectedType,
-            amount: exLog.amount
+            status: 'active',
+            amount: exLog.amount,
+            user_ID:'1'
           });
+        // setData(response.data);
       }
       Alert.alert('Success', 'Expenses saved!');i
     } catch (error) {
@@ -52,7 +55,7 @@ export default function Expenses() {
           <View>
             <Text style={style.title}>Expenses</Text>
           </View>
-          <TouchableOpacity style={style.saveOpacity} onPress={saveBet}>
+          <TouchableOpacity style={style.saveOpacity} onPress={saveExpenses}>
             <Text style={style.btnText}>Save</Text>
           </TouchableOpacity>
         </View>
@@ -90,9 +93,9 @@ export default function Expenses() {
             </TouchableOpacity>
         
         <View style={style.horizontalLines} />
-        <View style={style.resTable}>
+        <ScrollView style={style.resTable}>
           {exLogs.map((logs, index) => (
-            <ScrollView key={index} style={style.resView}>
+            <View key={index} style={style.resView}>
                 <View style={{width:250}}>
                   <Text style={style.logsText}>{logs.selectedType}</Text>
                   <Text style={style.logsText}>{logs.amount}</Text>
@@ -102,9 +105,9 @@ export default function Expenses() {
                     <Text style={style.btnText}>Delete</Text>
                   </TouchableOpacity>
                 </View>
-            </ScrollView>
+            </View>
           ))}
-      </View>
+        </ScrollView>
     </View>
   );
 }

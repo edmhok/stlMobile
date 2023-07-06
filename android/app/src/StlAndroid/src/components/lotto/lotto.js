@@ -1,69 +1,94 @@
-import {View, Text, TouchableOpacity, Button} from 'react-native';
+import {View, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
 import React, {useState} from 'react';
 import {LottoStyle as style} from './lotto.style';
 import DatePicker from 'react-native-date-picker';
+import {Picker} from '@react-native-picker/picker';
+import axios from 'axios';
+import moment from "moment";
+
 
 export default function Lotto() {
-  const [date, setDate] = useState(new Date());
-  const [open, setOpen] = useState(false)
-  const [lottoLogs, setLottoLogs] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [data, setData] = useState([]);
+  const [open, setOpen] = useState(false);
   
+  const handleDateChange = (date) => {
+    setSelectedDate(selectedDate);
+  };
 
-  const SearchLogs = () => {
-    const newData = [...lottoLogs, {date}];
-    setLottoLogs(newData);
-    setDate(date);
+  const searchLotto = async () => {
+    try {
+      const response = await axios.get(`http://10.0.2.2:8000/lotto/date/${moment(selectedDate).format("YYYY-MM-DD")}`);
+      console.log(response.data)
+      setData(response.data);
+      Alert.alert('Success', 'Lotto Result Found!');
+
+    } catch (error) {
+      Alert.alert('Error', 'Error search!');
+    }
   };
 
   return (
     <View style={style.container}>
       <View style={style.contentBox}>
         <Text style={style.title}>Lotto Result</Text>
-        
-      <Button title="Pick a Date" onPress={() => setOpen(true)} />
-      <DatePicker
-        modal
-        open={open}
-        mode="date"
-        date={date}
-        onConfirm={(date) => {
-          setOpen(false)
-          setDate(date)
-        }}
-        onCancel={() => {
-          setOpen(false)
-        }}
-      />
+        <Text style={style.label}>Date</Text>
+      
+        <View style={style.schedNumber}>
+          <Picker
+            selectedValue={selectedDate}
+            onValueChange={(itemValue) => setSelectedDate(itemValue)}
+            style={style.drop}
+            onFocus={() => setOpen(true)}
+            onChange={(text) => setSelectedDate(text)} 
+            >
+            <Picker.Item 
+              label={moment(selectedDate).format("YYYY-MM-DD")}
+              value={moment(selectedDate).format("YYYY-MM-DD")} />
+          </Picker>
+            
+          {data.length > 0 ? (
+        <View>
+          {data.map((item) => (
+            <Text key={item.id}>{item.selectedDate}</Text>
+          ))}
+        </View>
+      ) : (
+        <Text>No data to display.</Text>
+      )}
+            <DatePicker
+              modal
+              date={selectedDate}
+              mode="date"
+              onDateChange={handleDateChange}
+              open={open}
+              onConfirm={(selectedDate) => {
+                setOpen(true)
+                setSelectedDate(selectedDate)
+              }}
+              onCancel={() => {
+                setOpen(false)
+              }}
+
+            />
+        </View>
+
       </View>
-        <TouchableOpacity style={style.addOpacity} onPress={SearchLogs}>
-          <Text style={style.btnText}>Search</Text>
-        </TouchableOpacity>
-    
-        <View style={style.horizontalLines} />
+      
+    <TouchableOpacity style={style.addOpacity} onPress={searchLotto}>
+      <Text style={style.btnText}>Search</Text>
+    </TouchableOpacity>
+      <View style={style.horizontalLines} />
         <View style={style.resTable}>
-          {lottoLogs.map((logs, index) => (
-            <View key={index} style={style.resTab}>
-              <Text style={style.logsText}>11AM</Text>
+          {data.map((item) => (
+            <View key={item} style={style.resTab}>
+              <Text style={style.logsText}>{item.draw_time}</Text>
               <View style={style.resView}>
-                <Text style={style.logsText}>L2 - {logs.resultL2}</Text>
-                <Text style={style.logsText}>S3 - {logs.resultS3}</Text>
-                <Text style={style.logsText}>Ez2 - {logs.resultEz2}</Text>
-              </View>
-              <Text style={style.logsText}>4PM</Text>
-              <View style={style.resView}>
-                <Text style={style.logsText}>L2 - {logs.resultL2}</Text>
-                <Text style={style.logsText}>S3 - {logs.resultS3}</Text>
-                <Text style={style.logsText}>Ez2 - {logs.resultEz2}</Text>
-              </View>
-              <Text style={style.logsText}>9PM</Text>
-              <View style={style.resView}>
-                <Text style={style.logsText}>L2 - {logs.resultL2}</Text>
-                <Text style={style.logsText}>S3 - {logs.resultS3}</Text>
-                <Text style={style.logsText}>Ez2 - {logs.resultEz2}</Text>
+                <Text style={style.logsText}>{item.game_mode} - {item.number}</Text>
               </View>
             </View>
             ))}
-        </View>
+      </View>
     </View>
   );
 }

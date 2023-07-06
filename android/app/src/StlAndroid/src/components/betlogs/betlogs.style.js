@@ -1,17 +1,11 @@
 import {StyleSheet} from 'react-native';
 
-export const LogsStyle = StyleSheet.create({
+export const BetlogStyle = StyleSheet.create({
   container: {
     backgroundColor: '#E6E6E6',
     padding: 15,
     flex: 1,
     alignContent: 'center',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    margin: 10,
-    padding: 5,
   },
   contentBox: {
     marginTop: 20,
@@ -21,10 +15,14 @@ export const LogsStyle = StyleSheet.create({
     fontSize: 25,
     color: '#000',
     fontWeight: 500,
+    alignSelf:'flex-start',
+    paddingBottom: 40,
   },
   schedNumber: {
     top: 10,
+    alignSelf:'center',
     width: '100%',
+
   },
   amountTotal: {
     top: 10,
@@ -42,12 +40,13 @@ export const LogsStyle = StyleSheet.create({
   label: {
     fontSize: 16,
     color: '#000',
+    alignSelf:'flex-start',
+
   },
   drop: {
-    height: 50,
+    height: 40,
     width: '100%',
     backgroundColor: '#fff',
-    borderWidth: 9,
     borderRadius: 4,
   },
   numberInput: {
@@ -91,7 +90,7 @@ export const LogsStyle = StyleSheet.create({
   },
   resTable: {
     width: '100%',
-    height: 100,
+    height: 'auto',
     padding: 10,
   },
   logsText: {
@@ -99,40 +98,17 @@ export const LogsStyle = StyleSheet.create({
     fontWeight: 500,
     color: '#000',
   },
-  saveOpacity: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 130,
-    height: 45,
-    backgroundColor: 'steelblue',
-    borderRadius: 5,
-  },
-  btnVoid: {
-    backgroundColor: 'crimson',
-    padding: 10,
-    borderRadius: 10,
-    height: 40,
-    alignSelf: 'center',
-  },
   resView: {
     backgroundColor:'white',
-    alignContent: 'space-around',
-    flexDirection: 'row',
+    justifyContent: 'center',
+    flexDirection: 'column',
     padding: 10,
     borderBottomColor:'#E6E6E6',
-    borderBottomWidth: 10,
+    borderBottomWidth: 20,
   },
-  rightC: {
-    flex:1,
-    display: 'flex',
-    flexDirection:'row',
-    alignContent: 'center',
-    justifyContent: 'center',
+  resTab: {
+    backgroundColor: '#E6E6E6',
+    flexDirection: 'column',
   },
-  selectedContainer: {
-    marginTop: 20
-  },
-  selectedText: {
-    fontSize: 18
-  }
+  
 });

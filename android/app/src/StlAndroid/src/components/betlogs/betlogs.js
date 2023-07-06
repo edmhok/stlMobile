@@ -1,72 +1,128 @@
-import {View, Text, TouchableOpacity } from 'react-native';
+import {View, Text, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import React, {useState} from 'react';
-import {LogsStyle as style} from './betlogs.style';
+import {BetlogStyle as style} from './betlogs.style';
+import DatePicker from 'react-native-date-picker';
 import {Picker} from '@react-native-picker/picker';
-import { DatePickerInput } from 'react-native-paper-dates';
+import axios from 'axios';
+import moment from "moment";
 
-export default function BetLogs() {
-  const [inputDate, setInputDate] = useState(new Date());
-  const [selectedSched, setSelectedSched] = useState([]);
-  const [betLogs, setBetLogs] = useState([]);
+
+export default function Lotto() {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDTime, setSelectedDTime] = useState('');
+  const [data, setData] = useState([]);
+  const [open, setOpen] = useState(false);
   
-  const SearchLogs = () => {
-    const newData = [...betLogs, {inputDate, selectedSched}];
-    setBetLogs(newData);
-    setInputDate(inputDate);
-    setSelectedSched(selectedSched);
+  const handleDateChange = (date) => {
+    setSelectedDate(selectedDate);
+  };
+
+  const searchBetLogs = async () => {
+    try {
+      const response = await axios.get(`http://10.0.2.2:8000/bets/date/${moment(selectedDate).format("YYYY-MM-DD")}`);
+      console.log(response.data)
+      setData(response.data);
+      Alert.alert('Success', 'Bet Result Found!');
+
+    } catch (error) {
+      Alert.alert('Error', 'Error search!');
+    }
   };
 
   return (
     <View style={style.container}>
       <View style={style.contentBox}>
         <Text style={style.title}>Bet Logs</Text>
-          <View style={style.formInput}>
-              <DatePickerInput
-                locale="en"
-                label="Select a date"
-                value={inputDate}
-                onChange={(d) => setInputDate(d)}
-                // inputMode="start"
-              />
-          </View>
-          <View style={style.formInput}>
-          <Text style={style.label}>Draw Time</Text>
-            <View style={style.schedNumber}>
-              <Picker
-                selectedValue={selectedSched}
-                onValueChange={selectedSched => setSelectedSched(selectedSched)}
-                style={style.drop}>
-                <Picker.Item label="11AM" value="11AM" />
-                <Picker.Item label="4PM" value="4PM" />
-                <Picker.Item label="9PM" value="9PM" />
-              </Picker>
+        <Text style={style.label}>Date</Text>
+        <View style={style.schedNumber}>
+          <Picker
+            selectedValue={selectedDate}
+            onValueChange={(itemValue) => setSelectedDate(itemValue)}
+            style={style.drop}
+            onFocus={() => setOpen(true)}
+            onChange={(text) => setSelectedDate(text)} 
+            >
+            <Picker.Item 
+              label={moment(selectedDate).format("YYYY-MM-DD")}
+              value={moment(selectedDate).format("YYYY-MM-DD")} />
+            </Picker>
+            
+          {data.length > 0 ? (
+            <View>
+              {data.map((item) => (
+                <Text key={item.id}>{item.selectedDate}</Text>
+              ))}
             </View>
-          </View>
-      </View>
-            <TouchableOpacity style={style.addOpacity} onPress={SearchLogs}>
-              <Text style={style.btnText}>Search</Text>
-            </TouchableOpacity>
-        
-        <View style={style.horizontalLines} />
-        <View style={style.resTable}>
-          {betLogs.map((logs, index) => (
-            <View key={index} style={style.resView}>
-                <View style={{width:250}}>
-                <Text style={style.logsText}>Date: {logs.inputDate}</Text>
-                <Text style={style.logsText}>Transaction No: 000xxx</Text>
-                <Text style={style.logsText}> ABC - ₱{150} | S3</Text>
-                <Text style={style.logsText}> ABC - ₱{50} | L2(3D)</Text>
-                <Text style={style.logsText}>Total : ₱{100}</Text>
-                <Text style={style.logsText}>Time:{selectedSched}</Text>
-                </View>
-                <View style={style.rightC}>
-                  <TouchableOpacity style={style.btnVoid} onPress={{}}>
-                    <Text style={style.btnText}>Void</Text>
-                  </TouchableOpacity>
-                </View>
-            </View>
-          ))}
+          ) : (
+            <Text>No data to display.</Text>
+          )}
+            <DatePicker
+              modal
+              date={selectedDate}
+              mode="date"
+              onDateChange={handleDateChange}
+              open={open}
+              onConfirm={(selectedDate) => {
+                setOpen(true)
+                setSelectedDate(selectedDate)
+              }}
+              onCancel={() => {
+                setOpen(false)
+              }}
+            />
         </View>
-    </View>
+        <Text style={style.label}>Draw Time</Text>
+        <View style={style.schedNumber}>
+          <Picker
+            selectedValue={selectedDTime}
+            onValueChange={(itemValue) => setSelectedDTime(itemValue)}
+            style={style.drop}
+            onFocus={() => setOpen(true)}
+            onChange={(text) => setSelectedDTime(text)} 
+            >
+            <Picker.Item label="11 AM" value="11 AM" />
+            <Picker.Item label="4 PM" value="4 PM" />
+            <Picker.Item label="9 PM" value="9 PM" />
+          </Picker>
+            
+          {data.length > 0 ? (
+            <View>
+              {data.map((item) => (
+                <Text key={item.id}>{item.selectedDTime}</Text>
+              ))}
+            </View>
+          ) : (
+            <Text>No data to display.</Text>
+          )}
+         
+        </View>
+      </View>
+      
+    <TouchableOpacity style={style.addOpacity} onPress={searchBetLogs}>
+      <Text style={style.btnText}>Search</Text>
+    </TouchableOpacity>
+      <View style={style.horizontalLines} />
+        <ScrollView style={style.resTable}>
+          {data.map((item) => (
+            <View key={item} style={style.resTab}>
+              <View style={{width:250}}>
+              <View style={style.resView}>
+              <Text style={style.logsText}>Transaction No:{item.id}</Text>
+                <Text style={style.logsText}>ABC -{item.amount} | {item.game_mode}</Text>
+                <Text style={style.logsText}>Total:₱{150}</Text>
+                <Text style={style.logsText}>Time: {item.draw_time}</Text>
+
+                <View style={style.rightC}>
+                    <TouchableOpacity style={style.btnDel} onPress={() => deleteData(index)}>
+                      <Text style={style.btnText}>Delete</Text>
+                    </TouchableOpacity>
+                  </View>
+              </View>
+              </View>
+            </View>
+            ))}
+        </ScrollView>
+      </View>
   );
 }
+
