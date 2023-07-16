@@ -1,6 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import Login from '../components/login/login';
+import Login from '../components/opening/login';
+import Register from '../components/opening/register';
 import Dashboard from '../components/dashboard/dashboard';
 import Bet from '../components/bet/bet';
 import Expenses from '../components/expenses/expenses';
@@ -25,7 +26,12 @@ const StackNavigators = () => {
         }}>
         <Stack.Screen
           component={Login}
-          name="opening"
+          name="Login"
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          component={Register}
+          name="Register"
           options={{headerShown: false}}
         />
         <Stack.Screen

@@ -46,16 +46,7 @@ export default function Lotto() {
               label={moment(selectedDate).format("YYYY-MM-DD")}
               value={moment(selectedDate).format("YYYY-MM-DD")} />
           </Picker>
-            
-          {data.length > 0 ? (
-        <View>
-          {data.map((item) => (
-            <Text key={item.id}>{item.selectedDate}</Text>
-          ))}
-        </View>
-      ) : (
-        <Text>No data to display.</Text>
-      )}
+  
             <DatePicker
               modal
               date={selectedDate}

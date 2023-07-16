@@ -47,15 +47,6 @@ export default function Lotto() {
               value={moment(selectedDate).format("YYYY-MM-DD")} />
             </Picker>
             
-          {data.length > 0 ? (
-            <View>
-              {data.map((item) => (
-                <Text key={item.id}>{item.selectedDate}</Text>
-              ))}
-            </View>
-          ) : (
-            <Text>No data to display.</Text>
-          )}
             <DatePicker
               modal
               date={selectedDate}
@@ -84,17 +75,6 @@ export default function Lotto() {
             <Picker.Item label="4 PM" value="4 PM" />
             <Picker.Item label="9 PM" value="9 PM" />
           </Picker>
-            
-          {data.length > 0 ? (
-            <View>
-              {data.map((item) => (
-                <Text key={item.id}>{item.selectedDTime}</Text>
-              ))}
-            </View>
-          ) : (
-            <Text>No data to display.</Text>
-          )}
-         
         </View>
       </View>
       

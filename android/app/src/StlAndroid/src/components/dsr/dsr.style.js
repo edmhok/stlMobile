@@ -20,7 +20,9 @@ export const DsrStyle = StyleSheet.create({
   },
   schedNumber: {
     top: 10,
+    alignSelf:'center',
     width: '100%',
+
   },
   amountTotal: {
     top: 10,
@@ -38,12 +40,13 @@ export const DsrStyle = StyleSheet.create({
   label: {
     fontSize: 16,
     color: '#000',
+    alignSelf:'flex-start',
+
   },
   drop: {
-    height: 50,
+    height: 40,
     width: '100%',
     backgroundColor: '#fff',
-    borderWidth: 9,
     borderRadius: 4,
   },
   numberInput: {
@@ -103,8 +106,9 @@ export const DsrStyle = StyleSheet.create({
     borderBottomColor:'#E6E6E6',
     borderBottomWidth: 20,
   },
-  timeText: {
-    padding: 10,
-    fontWeight:300,
-  }
+  resTab: {
+    backgroundColor: '#E6E6E6',
+    flexDirection: 'column',
+  },
+  
 });
